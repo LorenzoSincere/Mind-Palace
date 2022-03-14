@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class TestController {
 
-    @Value("${test.hello}")
+    //@Value("${test.hello}")
     private String testHello;
     // @RequestMapping("/hello")
     // @RequestMapping(value = "/user/1", method = RequestMethod.GET)
