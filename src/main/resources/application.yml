@@ -45,3 +45,6 @@ spring:
           enabled: true
           max-attempts: 3 #最大重试次数
           initial-interval: 3000 #重试间隔时间（单位毫秒）
+# 配置Mybatis
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
