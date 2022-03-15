@@ -7,6 +7,7 @@ import com.lorenzo.mind_palace.mapper.DemoMapper;
 import com.lorenzo.mind_palace.mapper.EbookMapper;
 import com.lorenzo.mind_palace.request.EbookReq;
 import com.lorenzo.mind_palace.response.EbookResp;
+import com.lorenzo.mind_palace.util.CopyUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -30,12 +31,17 @@ public class EbookService {
         criteria.andNameLike("%" + req.getName() + "%");
         List<Ebook> ebooksList = ebookMapper.selectByExample(ebookExample);
 
-        List<EbookResp> respList = new ArrayList<>();
-        for (Ebook ebook : ebooksList) {
-            EbookResp ebookResp = new EbookResp();
-            BeanUtils.copyProperties(ebook, ebookResp);
-            respList.add(ebookResp);
-        }
+        // List<EbookResp> respList = new ArrayList<>();
+        // for (Ebook ebook : ebooksList) {
+            // EbookResp ebookResp = new EbookResp();
+            // BeanUtils.copyProperties(ebook, ebookResp);
+            // 遍历对象复制
+            // EbookResp ebookResp = CopyUtil.copy(ebook, EbookResp.class);
+            // respList.add(ebookResp);
+        // }
+
+        // 列表复制
+        List<EbookResp> respList = CopyUtil.copyList(ebooksList, EbookResp.class);
         return respList;
     }
 }
