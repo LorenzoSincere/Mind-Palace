@@ -2,7 +2,7 @@
 Mind Palace--Personal Knowledge Storage Center
 # Mind Palace个人知识库系统开发日志
 
-### 1 技术选型
+## 1 技术选型
 
 1.1 前端技术选型
 
@@ -10,9 +10,9 @@ Mind Palace--Personal Knowledge Storage Center
 
 1.2 后端技术选型
 
-​	Spring + Spring MVC + Mybasic + Mybasicplus + SpringBoot
+​	Spring + Spring MVC + Mybatis + Mybatis-generator + SpringBoot
 
-### 2 开发环境
+## 2 开发环境
 
 | 开发工具                      | 说明                |
 | ----------------------------- | ------------------- |
@@ -35,6 +35,18 @@ Mind Palace--Personal Knowledge Storage Center
 | Git        | 2.32.0  |
 | Node.js    | 14.17.4 |
 
-### 3 开发流程
+## 3 开发流程
 
 设计 --> 开发 --> 打包 --> 部署
+
+
+##4 目录结构
+
+SQL文件位于根目录下的mind palace.sql，需要MYSQL8以上版本。
+
+请先运行后端项目，再启动前端项目，前端项目配置由后端动态加载。
+
+##5 项目技术点
+  使用SpringBoot2.6X开发
+  1.使用Mybatis-Generator插件生成单表查询代码，简化开发流程
+  2.遵循阿里巴巴Java开发规范
