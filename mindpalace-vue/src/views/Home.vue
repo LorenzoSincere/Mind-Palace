@@ -113,31 +113,22 @@ for (let i = 0; i < 23; i++) {
 export default defineComponent({
   name: 'Home',
   setup() {
-    console.log("setup");
     const ebooks = ref();
     const ebooks1 = reactive({books: []});
 
     onMounted(() => {
-      console.log("onMounted");
       axios.get("/ebook/list").then((response) => {
-      console.log(response);
       const data = response.data;
       ebooks.value = data.content;
       ebooks1.books = data.content;
     });
     });
 
-    const actions: Record<string, string>[] = [
-      { type: 'StarOutlined', text: '156' },
-      { type: 'LikeOutlined', text: '156' },
-      { type: 'MessageOutlined', text: '2' },
-    ];
     return {
       ebooks,
       ebooks2: toRef(ebooks1, "books"),
       listData,
       pagination: {},
-      actions,
     };
   },
 });
