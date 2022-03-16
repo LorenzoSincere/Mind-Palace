@@ -68,7 +68,7 @@
         <a-layout-content
             :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
         >
-          <a-list item-layout="vertical" size="large" :gird="{ gutter: 20, column: 3}" :pagination="pagination" :data-source="ebooks">
+          <a-list item-layout="vertical" size="large" :gird="{ gutter: 20, column: 3}" :data-source="ebooks">
             <template #renderItem="{ item }">
               <a-list-item key="item.name">
                 <template #actions>
@@ -95,9 +95,9 @@
 
 <script lang="ts">
 import { UserOutlined, LaptopOutlined, NotificationOutlined,StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons-vue';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, onMounted, reactive, ref, toRef } from 'vue';
 import axios from 'axios';
-const listData: Record<string, string>[] = [];
+const listData: any = [];
 
 for (let i = 0; i < 23; i++) {
   listData.push({
@@ -111,6 +111,7 @@ for (let i = 0; i < 23; i++) {
   });
 }
 export default defineComponent({
+  name: 'Home',
   components: {
     UserOutlined,
     LaptopOutlined,
@@ -121,43 +122,41 @@ export default defineComponent({
   },
   setup() {
     console.log("setup");
-    axios.get("http://localhost:8080/ebook/list?name=Spring").then((response) => {
+    const ebooks = ref();
+    const ebooks1 = reactive({books: []});
+
+    onMounted(() => {
+      console.log("onMounted");
+      axios.get("http://localhost:8080/ebook/list").then((response) => {
       console.log(response);
-    })
-    const pagination = {
-      onChange: (page: number) => {
-        console.log(page);
-      },
-      pageSize: 3,
-    };
+      const data = response.data;
+      ebooks.value = data.content;
+      ebooks1.books = data.content;
+    });
+    });
+
     const actions: Record<string, string>[] = [
       { type: 'StarOutlined', text: '156' },
       { type: 'LikeOutlined', text: '156' },
       { type: 'MessageOutlined', text: '2' },
     ];
     return {
+      ebooks,
+      ebooks2: toRef(ebooks1, "books"),
       listData,
-      pagination,
+      pagination: {},
       actions,
     };
   },
 });
 </script>
-<style>
-#components-layout-demo-top-side-2 .logo {
-  float: left;
-  width: 120px;
-  height: 31px;
-  margin: 16px 24px 16px 0;
-  background: rgba(255, 255, 255, 0.3);
-}
 
-.ant-row-rtl #components-layout-demo-top-side-2 .logo {
-  float: right;
-  margin: 16px 0 16px 24px;
-}
-
-.site-layout-background {
-  background: #fff;
-}
+<style scoped>
+  .ant-avatar {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 8%;
+    margin: 5px 0;
+  }
 </style>
