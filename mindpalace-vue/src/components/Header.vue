@@ -71,20 +71,8 @@
   declare let KEY: any;
 
   export default defineComponent({
-    name: 'the-header',
+    name: 'Header',
     setup () {
-
-      // 用来登录
-      const loginUser = ref({
-        loginName: "test",
-        password: "test"
-      });
-      const loginModalVisible = ref(false);
-      const loginModalLoading = ref(false);
-      const showLoginModal = () => {
-        loginModalVisible.value = true;
-      };
-
 
     }
   });
