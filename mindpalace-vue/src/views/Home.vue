@@ -112,14 +112,6 @@ for (let i = 0; i < 23; i++) {
 }
 export default defineComponent({
   name: 'Home',
-  components: {
-    UserOutlined,
-    LaptopOutlined,
-    NotificationOutlined,
-    StarOutlined,
-    LikeOutlined,
-    MessageOutlined,
-  },
   setup() {
     console.log("setup");
     const ebooks = ref();
