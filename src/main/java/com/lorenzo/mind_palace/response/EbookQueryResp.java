@@ -1,6 +1,6 @@
 package com.lorenzo.mind_palace.response;
 
-public class EbookResp {
+public class EbookQueryResp {
     private Long id;
 
     private String name;

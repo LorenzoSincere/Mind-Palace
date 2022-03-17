@@ -4,7 +4,7 @@ package com.lorenzo.mind_palace.controller;
 import com.lorenzo.mind_palace.request.EbookQueryReq;
 import com.lorenzo.mind_palace.request.EbookSaveReq;
 import com.lorenzo.mind_palace.response.CommonResp;
-import com.lorenzo.mind_palace.response.EbookResp;
+import com.lorenzo.mind_palace.response.EbookQueryResp;
 import com.lorenzo.mind_palace.response.PageResp;
 import com.lorenzo.mind_palace.service.EbookService;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +24,8 @@ public class EbookController {
 
     @GetMapping("/list")
     public CommonResp list(EbookQueryReq req) {
-        CommonResp<PageResp<EbookResp>> response = new CommonResp<>();
-        PageResp<EbookResp> list = ebookService.list(req);
+        CommonResp<PageResp<EbookQueryResp>> response = new CommonResp<>();
+        PageResp<EbookQueryResp> list = ebookService.list(req);
         response.setContent(list);
         return response;
     }

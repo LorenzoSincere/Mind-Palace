@@ -7,7 +7,7 @@ import com.lorenzo.mind_palace.entity.EbookExample;
 import com.lorenzo.mind_palace.mapper.EbookMapper;
 import com.lorenzo.mind_palace.request.EbookQueryReq;
 import com.lorenzo.mind_palace.request.EbookSaveReq;
-import com.lorenzo.mind_palace.response.EbookResp;
+import com.lorenzo.mind_palace.response.EbookQueryResp;
 import com.lorenzo.mind_palace.response.PageResp;
 import com.lorenzo.mind_palace.util.CopyUtil;
 import org.slf4j.Logger;
@@ -30,7 +30,7 @@ public class EbookService {
     @Resource
     private EbookMapper ebookMapper;
 
-    public PageResp<EbookResp> list(EbookQueryReq req) {
+    public PageResp<EbookQueryResp> list(EbookQueryReq req) {
         EbookExample ebookExample = new EbookExample();
         EbookExample.Criteria criteria = ebookExample.createCriteria();
         if(!ObjectUtils.isEmpty(req.getName())) {
@@ -53,8 +53,8 @@ public class EbookService {
         // }
 
         // 列表复制
-        List<EbookResp> respList = CopyUtil.copyList(ebooksList, EbookResp.class);
-        PageResp<EbookResp> pageResp = new PageResp();
+        List<EbookQueryResp> respList = CopyUtil.copyList(ebooksList, EbookQueryResp.class);
+        PageResp<EbookQueryResp> pageResp = new PageResp();
         pageResp.setTotal(pageInfo.getTotal());
         pageResp.setList(respList);
         return pageResp;
