@@ -41,7 +41,7 @@ public class EbookService {
         PageHelper.startPage(1,5);
         List<Ebook> ebooksList = ebookMapper.selectByExample(ebookExample);
 
-        PageInfo<Ebook> pageInfo = new PageInfo<>();
+        PageInfo<Ebook> pageInfo = new PageInfo<>(ebooksList);
         LOG.info("总行数：{}", pageInfo.getTotal());
         LOG.info("总行数：{}", pageInfo.getPages());
 
