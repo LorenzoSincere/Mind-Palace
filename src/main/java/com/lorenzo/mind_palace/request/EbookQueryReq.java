@@ -3,7 +3,7 @@ package com.lorenzo.mind_palace.request;
 /**
  * @author libocheng
  */
-public class EbookReq extends PageReq{
+public class EbookQueryReq extends PageReq{
     private Long id;
 
     private String name;

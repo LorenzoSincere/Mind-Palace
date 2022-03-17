@@ -5,7 +5,8 @@ import com.github.pagehelper.PageInfo;
 import com.lorenzo.mind_palace.entity.Ebook;
 import com.lorenzo.mind_palace.entity.EbookExample;
 import com.lorenzo.mind_palace.mapper.EbookMapper;
-import com.lorenzo.mind_palace.request.EbookReq;
+import com.lorenzo.mind_palace.request.EbookQueryReq;
+import com.lorenzo.mind_palace.request.EbookSaveReq;
 import com.lorenzo.mind_palace.response.EbookResp;
 import com.lorenzo.mind_palace.response.PageResp;
 import com.lorenzo.mind_palace.util.CopyUtil;
@@ -29,7 +30,7 @@ public class EbookService {
     @Resource
     private EbookMapper ebookMapper;
 
-    public PageResp<EbookResp> list(EbookReq req) {
+    public PageResp<EbookResp> list(EbookQueryReq req) {
         EbookExample ebookExample = new EbookExample();
         EbookExample.Criteria criteria = ebookExample.createCriteria();
         if(!ObjectUtils.isEmpty(req.getName())) {
@@ -57,5 +58,21 @@ public class EbookService {
         pageResp.setTotal(pageInfo.getTotal());
         pageResp.setList(respList);
         return pageResp;
+    }
+
+    /**
+     * 保存
+     */
+    public void save(EbookSaveReq req) {
+        Ebook ebook = CopyUtil.copy(req, Ebook.class);
+        if(ObjectUtils.isEmpty(req.getId())) {
+            // id为空新增电子书
+            ebookMapper.insert(ebook);
+        } else {
+            // 更新电子书
+            ebookMapper.updateByPrimaryKey(ebook);
+        }
+
+
     }
 }
