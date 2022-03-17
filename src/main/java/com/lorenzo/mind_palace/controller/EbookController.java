@@ -7,10 +7,7 @@ import com.lorenzo.mind_palace.response.CommonResp;
 import com.lorenzo.mind_palace.response.EbookResp;
 import com.lorenzo.mind_palace.response.PageResp;
 import com.lorenzo.mind_palace.service.EbookService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -34,8 +31,8 @@ public class EbookController {
     }
 
     @PostMapping("/save")
-    public CommonResp save(EbookSaveReq req) {
-        CommonResp response = new CommonResp();
+    public CommonResp save(@RequestBody EbookSaveReq req) {
+        CommonResp response = new CommonResp<>();
         ebookService.save(req);
         return response;
     }
