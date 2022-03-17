@@ -1,5 +1,7 @@
 package com.lorenzo.mind_palace.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.lorenzo.mind_palace.entity.Demo;
 import com.lorenzo.mind_palace.entity.Ebook;
 import com.lorenzo.mind_palace.entity.EbookExample;
@@ -8,6 +10,8 @@ import com.lorenzo.mind_palace.mapper.EbookMapper;
 import com.lorenzo.mind_palace.request.EbookReq;
 import com.lorenzo.mind_palace.response.EbookResp;
 import com.lorenzo.mind_palace.util.CopyUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -23,6 +27,8 @@ import java.util.List;
 @Service
 public class EbookService {
 
+    private static final Logger LOG = LoggerFactory.getLogger(EbookService.class);
+
     @Resource
     private EbookMapper ebookMapper;
 
@@ -32,7 +38,12 @@ public class EbookService {
         if(!ObjectUtils.isEmpty(req.getName())) {
             criteria.andNameLike("%" + req.getName() + "%");
         }
+        PageHelper.startPage(1,5);
         List<Ebook> ebooksList = ebookMapper.selectByExample(ebookExample);
+
+        PageInfo<Ebook> pageInfo = new PageInfo<>();
+        LOG.info("总行数：{}", pageInfo.getTotal());
+        LOG.info("总行数：{}", pageInfo.getPages());
 
         // List<EbookResp> respList = new ArrayList<>();
         // for (Ebook ebook : ebooksList) {
