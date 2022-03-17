@@ -227,7 +227,8 @@ export default defineComponent({
 
     const handleDelete = (id: number) => {
       axios.delete("/ebook/delete/" + id).then((response) => {
-        const data = response.data; // data = commonResp
+        // data = commonResp
+        const data = response.data;
         if (data.success) {
           // 重新加载列表
           handleQuery({
@@ -270,7 +271,6 @@ export default defineComponent({
     };
 
     const getCategoryName = (cid: number) => {
-      // console.log(cid)
       let result = "";
       categorys.forEach((item: any) => {
         if (item.id === cid) {
