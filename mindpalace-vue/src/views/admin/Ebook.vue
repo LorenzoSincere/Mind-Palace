@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import {defineComponent, onMounted, ref} from "vue";
 import axios from 'axios';
 import { message } from "ant-design-vue";
 
@@ -39,7 +39,7 @@ export default defineComponent({
     const ebooks = ref();
     const pagination = ref({
       current: 1,
-      pageSize: 2,
+      pageSize: 4,
       total: 0
     });
 
@@ -123,6 +123,12 @@ export default defineComponent({
       });
     };
 
+    onMounted(() => {
+      handleQuery({
+        page: 1,
+        size: pagination.value.pageSize
+      })
+    })
     return {
       ebooks,
       pagination,

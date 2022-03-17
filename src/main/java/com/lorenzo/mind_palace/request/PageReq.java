@@ -10,7 +10,6 @@ public class PageReq {
 
     private int page;
 
-
     private int size;
 
     public int getPage() {
