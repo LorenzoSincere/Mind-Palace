@@ -1,8 +1,5 @@
 package com.lorenzo.mind_palace.entity;
 
-/**
- * @author libocheng
- */
 public class Demo {
     private Long id;
 
