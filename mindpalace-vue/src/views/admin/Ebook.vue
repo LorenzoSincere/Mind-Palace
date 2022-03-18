@@ -95,7 +95,7 @@ import { message } from 'ant-design-vue';
 import {Tool} from "@/util/tool";
 
 export default defineComponent({
-  name: 'AdminEbook',
+  name: 'Ebook',
   setup() {
     const param = ref();
     param.value = {};

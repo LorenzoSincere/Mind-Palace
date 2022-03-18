@@ -1,7 +1,6 @@
 package com.lorenzo.mind_palace.entity;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class CategoryExample {
@@ -105,63 +104,123 @@ public class CategoryExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andCategoryIdIsNull() {
-            addCriterion("category_id is null");
+        public Criteria andIdIsNull() {
+            addCriterion("id is null");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdIsNotNull() {
-            addCriterion("category_id is not null");
+        public Criteria andIdIsNotNull() {
+            addCriterion("id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdEqualTo(Byte value) {
-            addCriterion("category_id =", value, "categoryId");
+        public Criteria andIdEqualTo(Long value) {
+            addCriterion("id =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdNotEqualTo(Byte value) {
-            addCriterion("category_id <>", value, "categoryId");
+        public Criteria andIdNotEqualTo(Long value) {
+            addCriterion("id <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdGreaterThan(Byte value) {
-            addCriterion("category_id >", value, "categoryId");
+        public Criteria andIdGreaterThan(Long value) {
+            addCriterion("id >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdGreaterThanOrEqualTo(Byte value) {
-            addCriterion("category_id >=", value, "categoryId");
+        public Criteria andIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("id >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdLessThan(Byte value) {
-            addCriterion("category_id <", value, "categoryId");
+        public Criteria andIdLessThan(Long value) {
+            addCriterion("id <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdLessThanOrEqualTo(Byte value) {
-            addCriterion("category_id <=", value, "categoryId");
+        public Criteria andIdLessThanOrEqualTo(Long value) {
+            addCriterion("id <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdIn(List<Byte> values) {
-            addCriterion("category_id in", values, "categoryId");
+        public Criteria andIdIn(List<Long> values) {
+            addCriterion("id in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdNotIn(List<Byte> values) {
-            addCriterion("category_id not in", values, "categoryId");
+        public Criteria andIdNotIn(List<Long> values) {
+            addCriterion("id not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdBetween(Byte value1, Byte value2) {
-            addCriterion("category_id between", value1, value2, "categoryId");
+        public Criteria andIdBetween(Long value1, Long value2) {
+            addCriterion("id between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdNotBetween(Byte value1, Byte value2) {
-            addCriterion("category_id not between", value1, value2, "categoryId");
+        public Criteria andIdNotBetween(Long value1, Long value2) {
+            addCriterion("id not between", value1, value2, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentIsNull() {
+            addCriterion("parent is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentIsNotNull() {
+            addCriterion("parent is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentEqualTo(Long value) {
+            addCriterion("parent =", value, "parent");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentNotEqualTo(Long value) {
+            addCriterion("parent <>", value, "parent");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentGreaterThan(Long value) {
+            addCriterion("parent >", value, "parent");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentGreaterThanOrEqualTo(Long value) {
+            addCriterion("parent >=", value, "parent");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentLessThan(Long value) {
+            addCriterion("parent <", value, "parent");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentLessThanOrEqualTo(Long value) {
+            addCriterion("parent <=", value, "parent");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentIn(List<Long> values) {
+            addCriterion("parent in", values, "parent");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentNotIn(List<Long> values) {
+            addCriterion("parent not in", values, "parent");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentBetween(Long value1, Long value2) {
+            addCriterion("parent between", value1, value2, "parent");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentNotBetween(Long value1, Long value2) {
+            addCriterion("parent not between", value1, value2, "parent");
             return (Criteria) this;
         }
 
@@ -235,63 +294,63 @@ public class CategoryExample {
             return (Criteria) this;
         }
 
-        public Criteria andLastUpdateIsNull() {
-            addCriterion("last_update is null");
+        public Criteria andSortIsNull() {
+            addCriterion("sort is null");
             return (Criteria) this;
         }
 
-        public Criteria andLastUpdateIsNotNull() {
-            addCriterion("last_update is not null");
+        public Criteria andSortIsNotNull() {
+            addCriterion("sort is not null");
             return (Criteria) this;
         }
 
-        public Criteria andLastUpdateEqualTo(Date value) {
-            addCriterion("last_update =", value, "lastUpdate");
+        public Criteria andSortEqualTo(Integer value) {
+            addCriterion("sort =", value, "sort");
             return (Criteria) this;
         }
 
-        public Criteria andLastUpdateNotEqualTo(Date value) {
-            addCriterion("last_update <>", value, "lastUpdate");
+        public Criteria andSortNotEqualTo(Integer value) {
+            addCriterion("sort <>", value, "sort");
             return (Criteria) this;
         }
 
-        public Criteria andLastUpdateGreaterThan(Date value) {
-            addCriterion("last_update >", value, "lastUpdate");
+        public Criteria andSortGreaterThan(Integer value) {
+            addCriterion("sort >", value, "sort");
             return (Criteria) this;
         }
 
-        public Criteria andLastUpdateGreaterThanOrEqualTo(Date value) {
-            addCriterion("last_update >=", value, "lastUpdate");
+        public Criteria andSortGreaterThanOrEqualTo(Integer value) {
+            addCriterion("sort >=", value, "sort");
             return (Criteria) this;
         }
 
-        public Criteria andLastUpdateLessThan(Date value) {
-            addCriterion("last_update <", value, "lastUpdate");
+        public Criteria andSortLessThan(Integer value) {
+            addCriterion("sort <", value, "sort");
             return (Criteria) this;
         }
 
-        public Criteria andLastUpdateLessThanOrEqualTo(Date value) {
-            addCriterion("last_update <=", value, "lastUpdate");
+        public Criteria andSortLessThanOrEqualTo(Integer value) {
+            addCriterion("sort <=", value, "sort");
             return (Criteria) this;
         }
 
-        public Criteria andLastUpdateIn(List<Date> values) {
-            addCriterion("last_update in", values, "lastUpdate");
+        public Criteria andSortIn(List<Integer> values) {
+            addCriterion("sort in", values, "sort");
             return (Criteria) this;
         }
 
-        public Criteria andLastUpdateNotIn(List<Date> values) {
-            addCriterion("last_update not in", values, "lastUpdate");
+        public Criteria andSortNotIn(List<Integer> values) {
+            addCriterion("sort not in", values, "sort");
             return (Criteria) this;
         }
 
-        public Criteria andLastUpdateBetween(Date value1, Date value2) {
-            addCriterion("last_update between", value1, value2, "lastUpdate");
+        public Criteria andSortBetween(Integer value1, Integer value2) {
+            addCriterion("sort between", value1, value2, "sort");
             return (Criteria) this;
         }
 
-        public Criteria andLastUpdateNotBetween(Date value1, Date value2) {
-            addCriterion("last_update not between", value1, value2, "lastUpdate");
+        public Criteria andSortNotBetween(Integer value1, Integer value2) {
+            addCriterion("sort not between", value1, value2, "sort");
             return (Criteria) this;
         }
     }
