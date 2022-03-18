@@ -1,6 +1,5 @@
 package com.lorenzo.mind_palace.controller;
 
-
 import com.lorenzo.mind_palace.response.CommonResp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
