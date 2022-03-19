@@ -69,3 +69,4 @@ create table `doc` (
 ) engine=Innodb default charset=utf8mb4 comment='文档';
 
 insert into `doc` (id, ebook_id, parent, name, sort, view_count, vote_count) values (1, 1, 0, '文档1', 1, 0, 0);
+insert into `doc` (id, ebook_id, parent, name, sort, view_count, vote_count) values (2, 2, 0, '文档2', 2, 0, 0);
