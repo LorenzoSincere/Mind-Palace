@@ -20,6 +20,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * @author libocheng
+ */
 @Aspect
 @Component
 public class LogAspect {
