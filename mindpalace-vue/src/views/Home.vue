@@ -82,12 +82,12 @@ export default defineComponent({
   name: 'Home',
   setup() {
     const ebooks = ref();
-    // const ebooks1 = reactive({books: []});
 
     const openKeys =  ref();
 
     const level1 =  ref();
     let categorys: any;
+
     /**
      * 查询所有分类
      **/
