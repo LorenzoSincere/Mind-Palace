@@ -1,0 +1,264 @@
+<template>
+  <a-layout>
+    <a-layout-content
+      :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
+    >
+      <a-row :gutter="24">
+        <a-col :span="8">
+          <p>
+            <a-form layout="inline" :model="param">
+              <a-form-item>
+                <a-button type="primary" @click="handleQuery()">
+                  查询
+                </a-button>
+              </a-form-item>
+              <a-form-item>
+                <a-button type="primary" @click="add()">
+                  新增
+                </a-button>
+              </a-form-item>
+            </a-form>
+          </p>
+          <a-table
+            v-if="level1.length > 0"
+            :columns="columns"
+            :row-key="record => record.id"
+            :data-source="level1"
+            :loading="loading"
+            :pagination="false"
+            size="small"
+            :defaultExpandAllRows="true"
+          >
+            <template #name="{ text, record }">
+              {{record.sort}} {{text}}
+            </template>
+            <template v-slot:action="{ text, record }">
+              <a-space size="small">
+                <a-button type="primary" @click="edit(record)" size="small">
+                  编辑
+                </a-button>
+                <a-popconfirm
+                  title="删除后不可恢复，确认删除?"
+                  ok-text="是"
+                  cancel-text="否"
+                  @confirm="handleDelete(record.id)"
+                >
+                  <a-button type="danger" size="small">
+                    删除
+                  </a-button>
+                </a-popconfirm>
+              </a-space>
+            </template>
+          </a-table>
+        </a-col>
+        <a-col :span="16">
+          <p>
+            <a-form layout="inline" :model="param">
+              <a-form-item>
+                <a-button type="primary" @click="handleSave()">
+                  保存
+                </a-button>
+              </a-form-item>
+            </a-form>
+          </p>
+          <a-form :model="doc" layout="vertical">
+            <a-form-item>
+              <a-input v-model:value="doc.name" placeholder="名称"/>
+            </a-form-item>
+            <a-form-item>
+              <a-tree-select
+                v-model:value="doc.parent"
+                style="width: 100%"
+                :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
+                :tree-data="treeSelectData"
+                placeholder="请选择父文档"
+                tree-default-expand-all
+                :replaceFields="{title: 'name', key: 'id', value: 'id'}"
+              >
+              </a-tree-select>
+            </a-form-item>
+            <a-form-item>
+              <a-input v-model:value="doc.sort" placeholder="顺序"/>
+            </a-form-item>
+            <a-form-item>
+              <a-button type="primary" @click="handlePreviewContent()">
+                <EyeOutlined /> 内容预览
+              </a-button>
+            </a-form-item>
+            <a-form-item>
+              <div id="content"></div>
+            </a-form-item>
+          </a-form>
+        </a-col>
+      </a-row>
+
+      <a-drawer width="900" placement="right" :closable="false" :visible="drawerVisible" @close="onDrawerClose">
+        <div class="wangeditor" :innerHTML="previewHtml"></div>
+      </a-drawer>
+
+    </a-layout-content>
+  </a-layout>
+
+  <!--<a-modal-->
+  <!--  title="文档表单"-->
+  <!--  v-model:visible="modalVisible"-->
+  <!--  :confirm-loading="modalLoading"-->
+  <!--  @ok="handleModalOk"-->
+  <!--&gt;-->
+  <!--  -->
+  <!--</a-modal>-->
+</template>
+
+<script lang="ts">
+  import { defineComponent, onMounted, ref, createVNode } from 'vue';
+  import axios from "axios";
+  import {Tool} from "@/util/tool";
+  import {message} from "ant-design-vue";
+
+
+  export default defineComponent({
+    name: 'Doc',
+    setup() {
+      const param = ref();
+      param.value = {};
+      const docs = ref();
+      const loading = ref(false);
+
+      const columns = [
+        {
+          title: '名称',
+          dataIndex: 'name'
+        },
+        // {
+        //   title: '父分类',
+        //   key: 'parent',
+        //   dataIndex: 'parent'
+        // },
+        {
+          title: '顺序',
+          dataIndex: 'sort'
+        },
+        {
+          title: 'Action',
+          key: 'action',
+          slots: { customRender: 'action' }
+        }
+      ];
+
+      /**
+       * 一级分类树，children属性是二级分类
+       * [{
+       *   id: "",
+       *   name: "",
+       *   children: [{
+       *     id: "",
+       *     name: "",
+       *   }]
+       * }]
+       */
+      const level1 = ref(); // 一级分类树，children属性是二级分类
+      level1.value = [];
+
+      /**
+       * 数据查询
+       **/
+      const handleQuery = () => {
+        loading.value = true;
+        // 如果不清空现有数据，则编辑保存重新加载数据后，再点编辑，则列表显示的还是编辑前的数据
+        level1.value = [];
+        axios.get("/doc/all").then((response) => {
+          loading.value = false;
+          const data = response.data;
+          if (data.success) {
+            docs.value = data.content;
+            console.log("原始数组：", docs.value);
+
+            level1.value = [];
+            level1.value = Tool.array2Tree(docs.value, 0);
+            console.log("树形结构：", level1);
+          } else {
+            message.error(data.message);
+          }
+        });
+      };
+
+      // -------- 表单 ---------
+      const doc = ref({});
+      const modalVisible = ref(false);
+      const modalLoading = ref(false);
+      const handleModalOk = () => {
+        modalLoading.value = true;
+        axios.post("/doc/save", doc.value).then((response) => {
+          modalLoading.value = false;
+          const data = response.data; // data = commonResp
+          if (data.success) {
+            modalVisible.value = false;
+
+            // 重新加载列表
+            handleQuery();
+          } else {
+            message.error(data.message);
+          }
+        });
+      };
+
+      /**
+       * 编辑
+       */
+      const edit = (record: any) => {
+        modalVisible.value = true;
+        doc.value = Tool.copy(record);
+      };
+
+      /**
+       * 新增
+       */
+      const add = () => {
+        modalVisible.value = true;
+        doc.value = {};
+      };
+
+      const handleDelete = (id: number) => {
+        axios.delete("/doc/delete/" + id).then((response) => {
+          const data = response.data; // data = commonResp
+          if (data.success) {
+            // 重新加载列表
+            handleQuery();
+          } else {
+            message.error(data.message);
+          }
+        });
+      };
+
+      onMounted(() => {
+        handleQuery();
+      });
+
+      return {
+        param,
+        // docs,
+        level1,
+        columns,
+        loading,
+        handleQuery,
+
+        edit,
+        add,
+
+        doc,
+        modalVisible,
+        modalLoading,
+        handleModalOk,
+
+        handleDelete
+      }
+    }
+  });
+</script>
+
+<style scoped>
+  img {
+    width: 50px;
+    height: 50px;
+  }
+</style>
