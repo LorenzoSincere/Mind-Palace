@@ -79,7 +79,7 @@ public class CategoryService {
         Category category = CopyUtil.copy(req, Category.class);
         if(ObjectUtils.isEmpty(req.getId())) {
             // id为空新增电子书
-            snowFlake.nextId();
+            category.setId(snowFlake.nextId());
             categoryMapper.insert(category);
         } else {
             // 更新电子书

@@ -14,7 +14,7 @@ public class SnowFlake {
     /**
      * 起始的时间戳
      */
-    private final static long START_STMP = 1609459200000L; // 2021-01-01 00:00:00
+    private final static long START_STMP = 1609459200000L;
 
     /**
      * 每一部分占用的位数
