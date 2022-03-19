@@ -47,6 +47,7 @@ public class DocService {
 
     public PageResp<DocQueryResp> list(DocQueryReq req) {
         DocExample docExample = new DocExample();
+        docExample.setOrderByClause("sort asc");
         DocExample.Criteria criteria = docExample.createCriteria();
         PageHelper.startPage(req.getPage(),req.getSize());
         List<Doc> docsList = docMapper.selectByExample(docExample);
@@ -92,5 +93,11 @@ public class DocService {
      */
     public void delete(Long id) {
         docMapper.deleteByPrimaryKey(id);
+    }
+    public void delete(List<String> idStr) {
+        DocExample docExample = new DocExample();
+        DocExample.Criteria criteria = docExample.createCriteria();
+        criteria.andIdIn(idStr);
+        docMapper.deleteByExample(docExample);
     }
 }

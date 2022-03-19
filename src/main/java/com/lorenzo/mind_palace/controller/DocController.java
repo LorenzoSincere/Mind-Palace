@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * @author lorenzo
- * @date 2022/03/18 18:06
+ * @date 2022/03/19 20:12
  **/
 @RestController
 @RequestMapping("/doc")
@@ -47,10 +48,11 @@ public class DocController {
         return response;
     }
 
-    @DeleteMapping("/delete/{id}")
-    public CommonResp delete(@PathVariable Long id) {
+    @DeleteMapping("/delete/{idStr}")
+    public CommonResp delete(@PathVariable String idStr) {
         CommonResp response = new CommonResp<>();
-        docService.delete(id);
+        List<String> stringList = Arrays.asList(idStr.split(","));
+        docService.delete(stringList);
         return response;
     }
 }

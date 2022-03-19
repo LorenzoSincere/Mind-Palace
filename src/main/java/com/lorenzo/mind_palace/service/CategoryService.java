@@ -47,6 +47,7 @@ public class CategoryService {
 
     public PageResp<CategoryQueryResp> list(CategoryQueryReq req) {
         CategoryExample categoryExample = new CategoryExample();
+        categoryExample.setOrderByClause("sort asc");
         CategoryExample.Criteria criteria = categoryExample.createCriteria();
         PageHelper.startPage(req.getPage(),req.getSize());
         List<Category> categorysList = categoryMapper.selectByExample(categoryExample);
