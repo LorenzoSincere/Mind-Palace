@@ -1,6 +1,5 @@
 <template>
   <a-layout>
-    <a-layout>
       <a-layout-sider width="200" style="background: #fff">
         <a-menu
             mode="inline"
@@ -25,37 +24,41 @@
           </a-menu-item>
         </a-menu>
       </a-layout-sider>
-      <a-layout style="padding: 0 24px 24px">
-        <a-breadcrumb style="margin: 16px 0">
-          <a-breadcrumb-item>Home</a-breadcrumb-item>
-          <a-breadcrumb-item>List</a-breadcrumb-item>
-          <a-breadcrumb-item>App</a-breadcrumb-item>
-        </a-breadcrumb>
-        <a-layout-content
-            :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
-        >
-          <a-list item-layout="vertical" size="large" :gird="{ gutter: 20, column: 3}" :data-source="ebooks">
-            <template #renderItem="{ item }">
-              <a-list-item key="item.name">
-                <template #actions>
-                  <span v-for="{ type, text } in actions" :key="type">
-                    <component v-bind:is="type" style="margin-right: 8px" />
-                    {{ text }}
-                  </span>
+      <a-layout-content
+          :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
+      >
+        <div class="welcome" v-show="isShowWelcome">
+          <Welcome></Welcome>
+        </div>
+        <a-list v-show="!isShowWelcome" item-layout="vertical" size="large" :grid="{ gutter: 20, column: 3 }" :data-source="ebooks">
+          <template #renderItem="{ item }">
+            <a-list-item key="item.name">
+              <template #actions>
+              <span>
+                <component v-bind:is="'FileOutlined'" style="margin-right: 8px" />
+                {{ item.docCount }}
+              </span>
+                <span>
+                <component v-bind:is="'UserOutlined'" style="margin-right: 8px" />
+                {{ item.viewCount }}
+              </span>
+                <span>
+                <component v-bind:is="'LikeOutlined'" style="margin-right: 8px" />
+                {{ item.voteCount }}
+              </span>
+              </template>
+              <a-list-item-meta :description="item.description">
+                <template #title>
+                  <router-link :to="'/doc?ebookId=' + item.id">
+                    {{ item.name }}
+                  </router-link>
                 </template>
-                <a-list-item-meta :description="item.description">
-                  <template #title>
-                    <a :href="item.href">{{ item.name }}</a>
-                  </template>
-                  <template #avatar><a-avatar :src="item.cover" /></template>
-                </a-list-item-meta>
-                {{ item.content }}
-              </a-list-item>
-            </template>
-          </a-list>
-        </a-layout-content>
-      </a-layout>
-    </a-layout>
+                <template #avatar><a-avatar :src="item.cover"/></template>
+              </a-list-item-meta>
+            </a-list-item>
+          </template>
+        </a-list>
+      </a-layout-content>
   </a-layout>
 </template>
 
@@ -64,28 +67,20 @@ import { defineComponent, onMounted, reactive, ref, toRef } from 'vue';
 import axios from 'axios';
 import { message } from 'ant-design-vue';
 import {Tool} from "@/util/tool";
+import Welcome from '@/components/Welcome.vue';
 
-const listData: any = [];
-
-for (let i = 0; i < 23; i++) {
-  listData.push({
-    href: 'https://www.antdv.com/',
-    title: `ant design vue part ${i}`,
-    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-    description:
-        'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-    content:
-        'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-  });
-}
 export default defineComponent({
   name: 'Home',
+  components: {
+    Welcome
+  },
   setup() {
     const ebooks = ref();
 
     const openKeys =  ref();
 
     const level1 =  ref();
+
     let categorys: any;
 
     /**
@@ -113,28 +108,52 @@ export default defineComponent({
       });
     };
 
+    const isShowWelcome = ref(true);
+    let categoryId2 = 0;
+
+    const handleQueryEbook = () => {
+      axios.get("/ebook/list", {
+        params: {
+          page: 1,
+          size: 1000,
+          categoryId2: categoryId2
+        }
+      }).then((response) => {
+        const data = response.data;
+        ebooks.value = data.content.list;
+      });
+    };
+
+    const handleClick = (value: any) => {
+      // console.log("menu click", value)
+      if (value.key === 'welcome') {
+        isShowWelcome.value = true;
+      } else {
+        categoryId2 = value.key;
+        isShowWelcome.value = false;
+        handleQueryEbook();
+      }
+      // isShowWelcome.value = value.key === 'welcome';
+    };
+
     onMounted(() => {
       handleQueryCategory();
     });
 
     return {
       ebooks,
-      // ebooks2: toRef(ebooks1, "books"),
-      // listData,
       pagination: {
         onChange: (page: any) => {
           console.log(page);
         },
         pageSize: 3,
       },
-      // actions: [
-      //   { type: 'StarOutlined', text: '156' },
-      //   { type: 'LikeOutlined', text: '156' },
-      //   { type: 'MessageOutlined', text: '2' },
-      // ],
 
+      handleClick,
 
       level1,
+
+      isShowWelcome,
 
       openKeys
     };
