@@ -84,7 +84,7 @@ public class UserService {
                 throw new BusinessException(BusinessExceptionCode.USER_LOGIN_NAME_EXIST);
             }
         } else {
-            // 更新
+            // 更新，防攻击
             user.setLoginName(null);
             user.setPassword(null);
             userMapper.updateByPrimaryKeySelective(user);
