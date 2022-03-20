@@ -8,6 +8,7 @@ import com.lorenzo.mind_palace.exception.BusinessException;
 import com.lorenzo.mind_palace.exception.BusinessExceptionCode;
 import com.lorenzo.mind_palace.mapper.UserMapper;
 import com.lorenzo.mind_palace.request.UserQueryReq;
+import com.lorenzo.mind_palace.request.UserResetPasswordReq;
 import com.lorenzo.mind_palace.request.UserSaveReq;
 import com.lorenzo.mind_palace.response.UserQueryResp;
 import com.lorenzo.mind_palace.response.PageResp;
@@ -106,7 +107,15 @@ public class UserService {
         if(CollectionUtils.isEmpty(usersList)){
             return null;
         } else {
-           usersList.get(0);
+            return usersList.get(0);
         }
+    }
+
+    /**
+     * 修改密码
+     */
+    public void resetPassword(UserResetPasswordReq req) {
+        User user = CopyUtil.copy(req, User.class);
+        userMapper.updateByPrimaryKeySelective(user);
     }
 }

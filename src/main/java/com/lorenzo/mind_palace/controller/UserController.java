@@ -2,6 +2,7 @@ package com.lorenzo.mind_palace.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lorenzo.mind_palace.request.UserQueryReq;
+import com.lorenzo.mind_palace.request.UserResetPasswordReq;
 import com.lorenzo.mind_palace.request.UserSaveReq;
 import com.lorenzo.mind_palace.response.CommonResp;
 import com.lorenzo.mind_palace.response.PageResp;
@@ -48,6 +49,14 @@ public class UserController {
     public CommonResp delete(@PathVariable Long id) {
         CommonResp resp = new CommonResp<>();
         userService.delete(id);
+        return resp;
+    }
+
+    @PostMapping("/reset-password")
+    public CommonResp resetPassword(@Valid @RequestBody UserResetPasswordReq req) {
+        req.setPassword(DigestUtils.md5DigestAsHex(req.getPassword().getBytes()));
+        CommonResp resp = new CommonResp<>();
+        userService.resetPassword(req);
         return resp;
     }
 }
