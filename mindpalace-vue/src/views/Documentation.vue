@@ -1,7 +1,21 @@
 <template>
   <a-layout>
     <a-layout-content :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }">
-      <h3>对不起，找不到相关文档！</h3>
+      <a-row>
+        <a-col :span="6">
+          <a-tree
+              v-if="level1.length > 0"
+              :tree-data="level1"
+              @select=""
+              :replaceFields="{title: 'name', key: 'id', value: 'id'}"
+              :defaultExpandAll="true"
+              :defaultSelectedKeys=""
+          >
+          </a-tree>
+        </a-col>
+        <a-col :span="18">
+        </a-col>
+      </a-row>
     </a-layout-content>
   </a-layout>
 </template>
