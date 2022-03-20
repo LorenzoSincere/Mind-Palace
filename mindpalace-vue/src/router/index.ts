@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import Ebook from '../views/admin/Ebook.vue'
 import Category from '../views/admin/Category.vue'
 import Doc from '../views/admin/Doc.vue'
+import Documentation from '../views/Documentation.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -22,20 +23,25 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
-    path: '/admin/Ebook',
+    path: '/admin/ebook',
     name: 'Ebook',
     component: Ebook
   },
   {
-    path: '/admin/Category',
+    path: '/admin/category',
     name: 'Category',
     component: Category
   },
   {
-    path: '/admin/Doc',
+    path: '/admin/doc',
     name: 'Doc',
     component: Doc
   },
+  {
+    path: '/documentation',
+    name: 'Documentation',
+    component: Documentation
+  }
 ]
 
 const router = createRouter({
