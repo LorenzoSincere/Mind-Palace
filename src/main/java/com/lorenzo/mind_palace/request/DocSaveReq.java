@@ -20,9 +20,20 @@ public class DocSaveReq {
     @NotNull(message = "【顺序】不能为空")
     private Integer sort;
 
+    @NotNull(message = "【内容】不能为空")
+    private String content;
+
     private Integer viewCount;
 
     private Integer voteCount;
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     public Long getId() {
         return id;
@@ -82,16 +93,15 @@ public class DocSaveReq {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() +
-                " [" +
-                "Hash = " + hashCode() +
-                ", id=" + id +
+        return "DocSaveReq{" +
+                "id=" + id +
                 ", ebookId=" + ebookId +
                 ", parent=" + parent +
-                ", name=" + name +
+                ", name='" + name + '\'' +
                 ", sort=" + sort +
+                ", content='" + content + '\'' +
                 ", viewCount=" + viewCount +
                 ", voteCount=" + voteCount +
-                "]";
+                '}';
     }
 }

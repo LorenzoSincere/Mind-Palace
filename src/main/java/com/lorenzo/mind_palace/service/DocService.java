@@ -2,8 +2,11 @@ package com.lorenzo.mind_palace.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+
+import com.lorenzo.mind_palace.entity.Content;
 import com.lorenzo.mind_palace.entity.Doc;
 import com.lorenzo.mind_palace.entity.DocExample;
+import com.lorenzo.mind_palace.mapper.ContentMapper;
 import com.lorenzo.mind_palace.mapper.DocMapper;
 import com.lorenzo.mind_palace.request.DocQueryReq;
 import com.lorenzo.mind_palace.request.DocSaveReq;
@@ -13,7 +16,9 @@ import com.lorenzo.mind_palace.util.CopyUtil;
 import com.lorenzo.mind_palace.util.SnowFlake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
@@ -33,6 +38,9 @@ public class DocService {
 
     @Resource
     private SnowFlake snowFlake;
+
+    @Resource
+    private ContentMapper contentMapper;
 
     public List<DocQueryResp> all() {
         DocExample docExample = new DocExample();
@@ -78,13 +86,21 @@ public class DocService {
      */
     public void save(DocSaveReq req) {
         Doc doc = CopyUtil.copy(req, Doc.class);
+        Content content = CopyUtil.copy(req, Content.class);
         if(ObjectUtils.isEmpty(req.getId())) {
             // id为空新增电子书
             doc.setId(snowFlake.nextId());
             docMapper.insert(doc);
+
+            content.setId(doc.getId());
+            contentMapper.insert(content);
         } else {
             // 更新电子书
             docMapper.updateByPrimaryKey(doc);
+            int count = contentMapper.updateByPrimaryKeyWithBLOBs(content);
+            if (count == 0) {
+                contentMapper.insert(content);
+            }
         }
     }
 
