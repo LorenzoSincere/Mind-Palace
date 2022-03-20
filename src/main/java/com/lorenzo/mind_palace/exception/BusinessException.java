@@ -1,5 +1,8 @@
 package com.lorenzo.mind_palace.exception;
 
+/**
+ * @author libocheng
+ */
 public class BusinessException extends RuntimeException{
 
     private BusinessExceptionCode code;

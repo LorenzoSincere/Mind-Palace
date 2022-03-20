@@ -1,5 +1,8 @@
 package com.lorenzo.mind_palace.response;
 
+/**
+ * @author libocheng
+ */
 public class UserLoginResp {
     private Long id;
 
