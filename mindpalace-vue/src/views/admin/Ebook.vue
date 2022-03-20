@@ -181,7 +181,7 @@ export default defineComponent({
 
     // -------- 表单 ---------
     /**
-     * 数组，[100, 10]
+     * 数组，[100, 10] =》 前端开发 / Vue
      */
     const categoryIds = ref();
     const ebook = ref();

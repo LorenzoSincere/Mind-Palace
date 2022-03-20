@@ -52,6 +52,15 @@
           </a-table>
         </a-col>
         <a-col :span="16">
+          <p>
+            <a-form layout="inline" :model="param">
+              <a-form-item>
+                <a-button type="primary" @click="handleSave()">
+                  保存
+                </a-button>
+              </a-form-item>
+            </a-form>
+          </p>
           <a-form :model="doc" layout="vertical">
             <a-form-item>
               <a-input v-model:value="doc.name" placeholder="名称"/>
@@ -72,12 +81,20 @@
               <a-input v-model:value="doc.sort" placeholder="顺序"/>
             </a-form-item>
             <a-form-item>
+              <a-button type="primary" @click="handlePreviewContent()">
+                <EyeOutlined /> 内容预览
+              </a-button>
+            </a-form-item>
+            <a-form-item>
               <div id="content"></div>
             </a-form-item>
           </a-form>
         </a-col>
       </a-row>
 
+      <a-drawer width="900" placement="right" :closable="false" :visible="drawerVisible" @close="onDrawerClose">
+        <div class="wangeditor" :innerHTML="previewHtml"></div>
+      </a-drawer>
 
     </a-layout-content>
   </a-layout>
@@ -152,7 +169,8 @@
       const columns = [
         {
           title: '名称',
-          dataIndex: 'name'
+          dataIndex: 'name',
+          slots: { customRender: 'name' }
         },
         {
           title: '操作',
@@ -182,7 +200,7 @@
         loading.value = true;
         // 如果不清空现有数据，则编辑保存重新加载数据后，再点编辑，则列表显示的还是编辑前的数据
         level1.value = [];
-        axios.get("/doc/all"  + route.query.ebookId).then((response) => {
+        axios.get("/doc/all" + route.query.ebookId).then((response) => {
           loading.value = false;
           const data = response.data;
           if (data.success) {
@@ -216,13 +234,14 @@
       // 显示上传图片按钮，转成Base64存储，同时也支持拖拽图片
       editor.config.uploadImgShowBase64 = true;
 
-      const handleModalOk = () => {
+      const handleSave = () => {
         modalLoading.value = true;
         doc.value.content = editor.txt.html();
         axios.post("/doc/save", doc.value).then((response) => {
           modalLoading.value = false;
-          const data = response.data;
+          const data = response.data; // data = commonResp
           if (data.success) {
+            // modalVisible.value = false;
             message.success("保存成功！");
 
             // 重新加载列表
