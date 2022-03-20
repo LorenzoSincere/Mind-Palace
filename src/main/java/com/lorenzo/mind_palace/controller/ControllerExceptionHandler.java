@@ -1,5 +1,6 @@
 package com.lorenzo.mind_palace.controller;
 
+import com.lorenzo.mind_palace.exception.BusinessException;
 import com.lorenzo.mind_palace.response.CommonResp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 统一异常处理、数据预处理等
+ * @author libocheng
  */
 @ControllerAdvice
 public class ControllerExceptionHandler {
@@ -31,20 +33,20 @@ public class ControllerExceptionHandler {
         return commonResp;
     }
 
-//    /**
-//     * 校验异常统一处理
-//     * @param e
-//     * @return
-//     */
-//    @ExceptionHandler(value = BusinessException.class)
-//    @ResponseBody
-//    public CommonResp validExceptionHandler(BusinessException e) {
-//        CommonResp commonResp = new CommonResp();
-//        LOG.warn("业务异常：{}", e.getCode().getDesc());
-//        commonResp.setSuccess(false);
-//        commonResp.setMessage(e.getCode().getDesc());
-//        return commonResp;
-//    }
+    /**
+     * 校验异常统一处理
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(value = BusinessException.class)
+    @ResponseBody
+    public CommonResp validExceptionHandler(BusinessException e) {
+        CommonResp commonResp = new CommonResp();
+        LOG.warn("业务异常：{}", e.getCode().getDesc());
+        commonResp.setSuccess(false);
+        commonResp.setMessage(e.getCode().getDesc());
+        return commonResp;
+    }
 
     /**
      * 校验异常统一处理

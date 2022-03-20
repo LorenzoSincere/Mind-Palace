@@ -2,7 +2,6 @@ package com.lorenzo.mind_palace.service;
 
 import com.lorenzo.mind_palace.entity.Test;
 import com.lorenzo.mind_palace.mapper.TestMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

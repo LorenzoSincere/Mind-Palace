@@ -2,7 +2,6 @@ package com.lorenzo.mind_palace.controller;
 
 import com.lorenzo.mind_palace.entity.Test;
 import com.lorenzo.mind_palace.service.TestService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
