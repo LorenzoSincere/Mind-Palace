@@ -1,6 +1,9 @@
-package com.lorenzo.mind_palace.entity;
+package com.lorenzo.mind_palace.response;
 
-public class User {
+/**
+ * @author libocheng
+ */
+public class UserQueryResp {
     private Long id;
 
     private String loginName;
