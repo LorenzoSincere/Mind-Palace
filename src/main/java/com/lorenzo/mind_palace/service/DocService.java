@@ -6,6 +6,8 @@ import com.github.pagehelper.PageInfo;
 import com.lorenzo.mind_palace.entity.Content;
 import com.lorenzo.mind_palace.entity.Doc;
 import com.lorenzo.mind_palace.entity.DocExample;
+import com.lorenzo.mind_palace.exception.BusinessException;
+import com.lorenzo.mind_palace.exception.BusinessExceptionCode;
 import com.lorenzo.mind_palace.mapper.ContentMapper;
 import com.lorenzo.mind_palace.mapper.DocMapper;
 import com.lorenzo.mind_palace.mapper.DocMapperCount;
@@ -14,6 +16,8 @@ import com.lorenzo.mind_palace.request.DocSaveReq;
 import com.lorenzo.mind_palace.response.DocQueryResp;
 import com.lorenzo.mind_palace.response.PageResp;
 import com.lorenzo.mind_palace.util.CopyUtil;
+import com.lorenzo.mind_palace.util.RedisUtil;
+import com.lorenzo.mind_palace.util.RequestContext;
 import com.lorenzo.mind_palace.util.SnowFlake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +49,9 @@ public class DocService {
 
     @Resource
     private ContentMapper contentMapper;
+
+    @Resource
+    public RedisUtil redisUtil;
 
     public List<DocQueryResp> all(Long ebookId) {
         DocExample docExample = new DocExample();
@@ -138,6 +145,12 @@ public class DocService {
      * 点赞
      */
     public void vote(Long id) {
-        docMapperCount.increaseVoteCount(id);
+        // 远程IP+doc.id作为key，24小时内不能重复
+        String ip = RequestContext.getRemoteAddr();
+        if (redisUtil.validateRepeat("DOC_VOTE_" + id + "_" + ip, 5000)) {
+            docMapperCount.increaseVoteCount(id);
+        } else {
+            throw new BusinessException(BusinessExceptionCode.VOTE_REPEAT);
+        }
     }
 }
