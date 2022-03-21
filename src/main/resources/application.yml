@@ -35,7 +35,7 @@ spring:
   #  password: li06338687
   # RocketMQ配置
   rocketmq:
-    name-server: 127.0.0.1:9876
+    nameServer: 127.0.0.1:9876
     producer:
       group: default
 

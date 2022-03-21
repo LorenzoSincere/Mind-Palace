@@ -28,7 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
-import java.beans.Transient;
 import java.util.List;
 
 /**
@@ -55,8 +54,8 @@ public class DocService {
     @Resource
     public RedisUtil redisUtil;
 
-    @Resource
-    public WebSocketService wsService;
+//    @Resource
+//    public WebSocketService wsService;
 
     @Resource
     private RocketMQTemplate rocketMQTemplate;
@@ -167,8 +166,10 @@ public class DocService {
         // 推送消息
         Doc docDb = docMapper.selectByPrimaryKey(id);
         String logId = MDC.get("LOG_ID");
-        wsService.sendInfo("【" + docDb.getName() + "】被点赞！", logId);
-        // rocketMQTemplate.convertAndSend("VOTE_TOPIC", "【" + docDb.getName() + "】被点赞！");
+
+        // 异步化
+        // wsService.sendInfo("【" + docDb.getName() + "】被点赞！", logId);
+        rocketMQTemplate.convertAndSend("VOTE_TOPIC", "【" + docDb.getName() + "】被点赞！");
     }
 
     public void updateEbookInfo() {

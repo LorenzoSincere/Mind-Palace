@@ -10,6 +10,9 @@ package com.lorenzo.mind_palace.rocketmq;
 
  import javax.annotation.Resource;
 
+ /**
+  * @author libocheng
+  */
  @Service
  @RocketMQMessageListener(consumerGroup = "default", topic = "VOTE_TOPIC")
  public class VoteTopicConsumer implements RocketMQListener<MessageExt> {
