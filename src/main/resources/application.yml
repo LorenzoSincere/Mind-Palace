@@ -33,18 +33,12 @@ spring:
     host: 127.0.0.1
     port: 6379
   #  password: li06338687
-  # mq配置
-  rabbitmq:
-    host: 127.0.0.1
-    port: 5672
-    username: guest
-    password: guest
-    listener:
-      simple:
-        retry:
-          enabled: true
-          max-attempts: 3 #最大重试次数
-          initial-interval: 3000 #重试间隔时间（单位毫秒）
+  # RocketMQ配置
+  rocketmq:
+    name-server: 127.0.0.1:9876
+    producer:
+      group: default
+
 # 配置Mybatis
 mybatis:
   mapper-locations: classpath:mapper/*.xml
