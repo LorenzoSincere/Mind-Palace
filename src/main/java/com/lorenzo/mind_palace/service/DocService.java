@@ -8,6 +8,7 @@ import com.lorenzo.mind_palace.entity.Doc;
 import com.lorenzo.mind_palace.entity.DocExample;
 import com.lorenzo.mind_palace.mapper.ContentMapper;
 import com.lorenzo.mind_palace.mapper.DocMapper;
+import com.lorenzo.mind_palace.mapper.DocMapperCount;
 import com.lorenzo.mind_palace.request.DocQueryReq;
 import com.lorenzo.mind_palace.request.DocSaveReq;
 import com.lorenzo.mind_palace.response.DocQueryResp;
@@ -35,6 +36,9 @@ public class DocService {
 
     @Resource
     private DocMapper docMapper;
+
+    @Resource
+    private DocMapperCount docMapperCount;
 
     @Resource
     private SnowFlake snowFlake;
@@ -89,14 +93,15 @@ public class DocService {
         Doc doc = CopyUtil.copy(req, Doc.class);
         Content content = CopyUtil.copy(req, Content.class);
         if(ObjectUtils.isEmpty(req.getId())) {
-            // id为空新增电子书
+            // id为空新增
             doc.setId(snowFlake.nextId());
+            doc.setViewCount(0);
+            doc.setVoteCount(0);
             docMapper.insert(doc);
-
             content.setId(doc.getId());
             contentMapper.insert(content);
         } else {
-            // 更新电子书
+            // 更新
             docMapper.updateByPrimaryKey(doc);
             int count = contentMapper.updateByPrimaryKeyWithBLOBs(content);
             if (count == 0) {
@@ -120,6 +125,8 @@ public class DocService {
 
     public String findContent(Long id) {
         Content content = contentMapper.selectByPrimaryKey(id);
+        // 文档阅读数+1
+        docMapperCount.increaseViewCount(id);
         if (ObjectUtils.isEmpty(content)) {
             return "";
         } else {
