@@ -11,7 +11,7 @@ import javax.annotation.Resource;
  * @author libocheng
  */
 @Service
-public class WsService {
+public class WebSocketService {
 
     @Resource
     public WebSocketServer webSocketServer;
