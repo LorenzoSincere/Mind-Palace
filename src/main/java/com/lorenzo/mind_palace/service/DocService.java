@@ -78,14 +78,14 @@ public class DocService {
         docExample.setOrderByClause("sort asc");
         DocExample.Criteria criteria = docExample.createCriteria();
         PageHelper.startPage(req.getPage(),req.getSize());
-        List<Doc> docsList = docMapper.selectByExample(docExample);
+        List<Doc> docList = docMapper.selectByExample(docExample);
 
-        PageInfo<Doc> pageInfo = new PageInfo<>(docsList);
+        PageInfo<Doc> pageInfo = new PageInfo<>(docList);
         LOG.info("总行数：{}", pageInfo.getTotal());
         LOG.info("总行数：{}", pageInfo.getPages());
 
         // List<DocResp> respList = new ArrayList<>();
-        // for (Doc doc : docsList) {
+        // for (Doc doc : docList) {
             // DocResp docResp = new DocResp();
             // BeanUtils.copyProperties(doc, docResp);
             // 遍历对象复制
@@ -94,7 +94,7 @@ public class DocService {
         // }
 
         // 列表复制
-        List<DocQueryResp> respList = CopyUtil.copyList(docsList, DocQueryResp.class);
+        List<DocQueryResp> respList = CopyUtil.copyList(docList, DocQueryResp.class);
         PageResp<DocQueryResp> pageResp = new PageResp();
         pageResp.setTotal(pageInfo.getTotal());
         pageResp.setList(respList);
@@ -108,12 +108,13 @@ public class DocService {
     public void save(DocSaveReq req) {
         Doc doc = CopyUtil.copy(req, Doc.class);
         Content content = CopyUtil.copy(req, Content.class);
-        if(ObjectUtils.isEmpty(req.getId())) {
-            // id为空新增
+        if (ObjectUtils.isEmpty(req.getId())) {
+            // 新增
             doc.setId(snowFlake.nextId());
             doc.setViewCount(0);
             doc.setVoteCount(0);
             docMapper.insert(doc);
+
             content.setId(doc.getId());
             contentMapper.insert(content);
         } else {
@@ -132,6 +133,7 @@ public class DocService {
     public void delete(Long id) {
         docMapper.deleteByPrimaryKey(id);
     }
+
     public void delete(List<String> idStr) {
         DocExample docExample = new DocExample();
         DocExample.Criteria criteria = docExample.createCriteria();
@@ -154,6 +156,7 @@ public class DocService {
      * 点赞
      */
     public void vote(Long id) {
+        // docMapperCust.increaseVoteCount(id);
         // 远程IP+doc.id作为key，24小时内不能重复
         String ip = RequestContext.getRemoteAddr();
         if (redisUtil.validateRepeat("DOC_VOTE_" + id + "_" + ip, 5000)) {

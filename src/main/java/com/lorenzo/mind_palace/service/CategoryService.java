@@ -50,14 +50,14 @@ public class CategoryService {
         categoryExample.setOrderByClause("sort asc");
         CategoryExample.Criteria criteria = categoryExample.createCriteria();
         PageHelper.startPage(req.getPage(),req.getSize());
-        List<Category> categorysList = categoryMapper.selectByExample(categoryExample);
+        List<Category> categoryList = categoryMapper.selectByExample(categoryExample);
 
-        PageInfo<Category> pageInfo = new PageInfo<>(categorysList);
+        PageInfo<Category> pageInfo = new PageInfo<>(categoryList);
         LOG.info("总行数：{}", pageInfo.getTotal());
-        LOG.info("总行数：{}", pageInfo.getPages());
+        LOG.info("总页数：{}", pageInfo.getPages());
 
         // List<CategoryResp> respList = new ArrayList<>();
-        // for (Category category : categorysList) {
+        // for (Category category : categoryList) {
             // CategoryResp categoryResp = new CategoryResp();
             // BeanUtils.copyProperties(category, categoryResp);
             // 遍历对象复制
@@ -66,7 +66,7 @@ public class CategoryService {
         // }
 
         // 列表复制
-        List<CategoryQueryResp> respList = CopyUtil.copyList(categorysList, CategoryQueryResp.class);
+        List<CategoryQueryResp> respList = CopyUtil.copyList(categoryList, CategoryQueryResp.class);
         PageResp<CategoryQueryResp> pageResp = new PageResp();
         pageResp.setTotal(pageInfo.getTotal());
         pageResp.setList(respList);
@@ -79,11 +79,11 @@ public class CategoryService {
     public void save(CategorySaveReq req) {
         Category category = CopyUtil.copy(req, Category.class);
         if(ObjectUtils.isEmpty(req.getId())) {
-            // id为空新增电子书
+            // id为空新增
             category.setId(snowFlake.nextId());
             categoryMapper.insert(category);
         } else {
-            // 更新电子书
+            // 更新
             categoryMapper.updateByPrimaryKey(category);
         }
     }

@@ -37,21 +37,21 @@ public class EbookService {
     public PageResp<EbookQueryResp> list(EbookQueryReq req) {
         EbookExample ebookExample = new EbookExample();
         EbookExample.Criteria criteria = ebookExample.createCriteria();
-        if(!ObjectUtils.isEmpty(req.getName())) {
+        if (!ObjectUtils.isEmpty(req.getName())) {
             criteria.andNameLike("%" + req.getName() + "%");
         }
-        if(!ObjectUtils.isEmpty(req.getCategoryId2())) {
+        if (!ObjectUtils.isEmpty(req.getCategoryId2())) {
             criteria.andCategory2IdEqualTo(req.getCategoryId2());
         }
-        PageHelper.startPage(req.getPage(),req.getSize());
-        List<Ebook> ebooksList = ebookMapper.selectByExample(ebookExample);
+        PageHelper.startPage(req.getPage(), req.getSize());
+        List<Ebook> ebookList = ebookMapper.selectByExample(ebookExample);
 
-        PageInfo<Ebook> pageInfo = new PageInfo<>(ebooksList);
+        PageInfo<Ebook> pageInfo = new PageInfo<>(ebookList);
         LOG.info("总行数：{}", pageInfo.getTotal());
-        LOG.info("总行数：{}", pageInfo.getPages());
+        LOG.info("总页数：{}", pageInfo.getPages());
 
         // List<EbookResp> respList = new ArrayList<>();
-        // for (Ebook ebook : ebooksList) {
+        // for (Ebook ebook : ebookList) {
             // EbookResp ebookResp = new EbookResp();
             // BeanUtils.copyProperties(ebook, ebookResp);
             // 遍历对象复制
@@ -60,7 +60,7 @@ public class EbookService {
         // }
 
         // 列表复制
-        List<EbookQueryResp> respList = CopyUtil.copyList(ebooksList, EbookQueryResp.class);
+        List<EbookQueryResp> respList = CopyUtil.copyList(ebookList, EbookQueryResp.class);
         PageResp<EbookQueryResp> pageResp = new PageResp();
         pageResp.setTotal(pageInfo.getTotal());
         pageResp.setList(respList);
@@ -72,7 +72,7 @@ public class EbookService {
      */
     public void save(EbookSaveReq req) {
         Ebook ebook = CopyUtil.copy(req, Ebook.class);
-        if(ObjectUtils.isEmpty(req.getId())) {
+        if (ObjectUtils.isEmpty(req.getId())) {
             // id为空新增电子书
             ebook.setId(snowFlake.nextId());
             ebookMapper.insert(ebook);
