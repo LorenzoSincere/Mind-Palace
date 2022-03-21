@@ -1,5 +1,6 @@
 package com.lorenzo.mind_palace.config;
 
+import com.lorenzo.mind_palace.interceptor.ActionInterceptor;
 import com.lorenzo.mind_palace.interceptor.LoginInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -13,8 +14,8 @@ public class SpringMvcConfig implements WebMvcConfigurer {
     @Resource
     LoginInterceptor loginInterceptor;
 
-//    @Resource
-//    ActionInterceptor actionInterceptor;
+    @Resource
+    ActionInterceptor actionInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -32,11 +33,10 @@ public class SpringMvcConfig implements WebMvcConfigurer {
                         "/ebook-snapshot/**"
                 );
 
-//        registry.addInterceptor(actionInterceptor)
-//                .addPathPatterns(
-//                        "/*/save",
-//                        "/*/delete/**",
-//                        "/*/reset-password");
-//    }
+        registry.addInterceptor(actionInterceptor)
+                .addPathPatterns(
+                        "/*/save",
+                        "/*/delete/**",
+                        "/*/reset-password");
     }
 }
