@@ -10,11 +10,11 @@ import javax.annotation.Resource;
 @Configuration
 public class SpringMvcConfig implements WebMvcConfigurer {
 
-   @Resource
-   LoginInterceptor loginInterceptor;
-
     @Resource
-    ActionInterceptor actionInterceptor;
+    LoginInterceptor loginInterceptor;
+
+//    @Resource
+//    ActionInterceptor actionInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -32,10 +32,11 @@ public class SpringMvcConfig implements WebMvcConfigurer {
                         "/ebook-snapshot/**"
                 );
 
-        registry.addInterceptor(actionInterceptor)
-                .addPathPatterns(
-                        "/*/save",
-                        "/*/delete/**",
-                        "/*/reset-password");
+//        registry.addInterceptor(actionInterceptor)
+//                .addPathPatterns(
+//                        "/*/save",
+//                        "/*/delete/**",
+//                        "/*/reset-password");
+//    }
     }
 }

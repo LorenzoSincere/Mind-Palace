@@ -156,8 +156,8 @@ export default defineComponent({
       isShowWelcome,
 
       openKeys
-    };
-  },
+    }
+  }
 });
 </script>
 

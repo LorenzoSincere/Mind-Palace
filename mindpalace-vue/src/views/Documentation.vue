@@ -7,10 +7,10 @@
           <a-tree
               v-if="level1.length > 0"
               :tree-data="level1"
-              @select=""
+              @select="onSelect"
               :replaceFields="{title: 'name', key: 'id', value: 'id'}"
               :defaultExpandAll="true"
-              :defaultSelectedKeys=""
+              :defaultSelectedKeys="defaultSelectedKeys"
           >
           </a-tree>
         </a-col>
@@ -118,6 +118,18 @@
         }
       };
 
+      // 点赞
+      const vote = () => {
+        axios.get('/doc/vote/' + doc.value.id).then((response) => {
+          const data = response.data;
+          if (data.success) {
+            doc.value.voteCount++;
+          } else {
+            message.error(data.message);
+          }
+        });
+      };
+
       onMounted(() => {
         handleQuery();
       });
@@ -128,6 +140,7 @@
         onSelect,
         defaultSelectedKeys,
         doc,
+        vote
       }
     }
   })

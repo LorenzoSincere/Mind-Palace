@@ -5,6 +5,7 @@ import Category from '../views/admin/Category.vue'
 import Doc from '../views/admin/Doc.vue'
 import Documentation from '../views/Documentation.vue'
 import User from '../views/admin/User.vue'
+import TencentCloud from '../views/tencentcloud.vue'
 import store from "@/store";
 import {Tool} from "@/util/tool";
 
@@ -61,7 +62,12 @@ const routes: Array<RouteRecordRaw> = [
     path: '/documentation',
     name: 'Documentation',
     component: Documentation
-  }
+  },
+  {
+    path: '/tencentcloud',
+    name: 'TencentCloud',
+    component: TencentCloud
+  },
 ]
 
 const router = createRouter({
